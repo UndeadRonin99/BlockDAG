@@ -7,7 +7,16 @@ const config = {
   height: 600,
   parent: 'game-container',
   backgroundColor: '#222222',
-  scene: [BootScene, MainMenuScene, GameScene],
+  scene: [
+    BootScene,
+    MainMenuScene,
+    MiniGamesMenuScene,
+    PacketDodgerScene,
+    BitFlipperScene,
+    HackerAttackScene,
+    WinScene,
+    LoseScene
+  ],
   physics: {
     default: 'arcade',
     arcade: {
@@ -16,4 +25,4 @@ const config = {
   },
 };
 
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
