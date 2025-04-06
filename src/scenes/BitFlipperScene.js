@@ -8,13 +8,15 @@ class BitFlipperScene extends Phaser.Scene {
       this.registry.set('score', 0);
       this.registry.set('time', 30);  // 30-second limit
   
-      this.gridSize = 3;
+      this.gridSize = 5;
       this.tileSize = 64;
       this.grid = [];
       this.targetPattern = [
-        [1, 0, 1],
-        [0, 1, 0],
-        [1, 0, 1],
+        [1, 0, 1, 0, 1],
+        [0, 1, 0, 1, 0],
+        [1, 0, 1, 0, 1],
+        [0, 1, 0, 1, 0],
+        [1, 0, 1, 0, 1],
       ];
   
       const offsetX = this.scale.width / 2 - (this.gridSize * this.tileSize) / 2;
