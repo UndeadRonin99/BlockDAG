@@ -1,6 +1,6 @@
-// main.js
+// Ensure BootScene and MainMenuScene are loaded before this file
+// (or using modules, import them)
 
-// Use the classes we attached to window in our config
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -19,8 +19,10 @@ const config = {
   ],
   physics: {
     default: 'arcade',
-    arcade: { debug: false }
-  }
+    arcade: {
+      debug: false,
+    },
+  },
 };
 
 const game = new Phaser.Game(config);
