@@ -34,8 +34,13 @@ class MainMenuScene extends Phaser.Scene {
   
       // 5) Add a sprite-based Start button below the logo
       const startButtonSprite = this.add.image(width / 2, height / 2 + 150, 'startButton')
-        .setOrigin(0.5)
-        .setInteractive();
+      .setOrigin(0.5)
+      .setInteractive();
+
+      this.input.once('pointerdown', () => {
+        this.scene.start('MiniGamesMenuScene');
+      });
+  
   
       // 6) On click/tap, stop music (if desired) and switch scenes
       startButtonSprite.on('pointerdown', () => {
