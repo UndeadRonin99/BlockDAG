@@ -14,98 +14,138 @@ class ProofPuzzleScene extends Phaser.Scene {
     create() {
       const { width, height } = this.cameras.main;
   
-      // --- Background ---
+      // 1) Initialize registry
+      this.registry.set('score', 0);   // track guess attempts
+      this.registry.set('time', 30);   // 30-second limit
+  
+      // 2) Background
       const bg = this.add.image(width / 2, height / 2, 'puzzleBg');
       bg.setDisplaySize(width, height);
   
-      // --- Title / Instructions ---
-      this.add.text(width / 2, 50, 'Proof Puzzle', {
-        fontSize: '32px',
+      // 3) Title
+      this.add.text(width / 2, 30, 'Proof Puzzle', {
+        fontSize: '28px',
         color: '#ffffff',
       }).setOrigin(0.5);
   
-      // Generate random puzzle
+      // 4) Generate puzzle
       this.numA = Phaser.Math.Between(1, 15);
       this.numB = Phaser.Math.Between(1, 15);
       this.solution = this.numA + this.numB; // keep it simple: addition
   
-      // Display puzzle text
-      this.add.text(width / 2, 120, `What is ${this.numA} + ${this.numB}?`, {
+      // 5) Display puzzle text
+      this.add.text(width / 2, 80, `What is ${this.numA} + ${this.numB}?`, {
         fontSize: '24px',
         color: '#00ff00',
       }).setOrigin(0.5);
   
-      // We'll hold the player's guess in a variable
+      // 6) Player guess
       this.playerGuess = 0;
-  
-      // Show the guess on screen
       this.guessText = this.add.text(width / 2, height / 2, `Guess: 0`, {
         fontSize: '28px',
         color: '#ffffff',
       }).setOrigin(0.5);
   
-      // --- Up Arrow (increase guess) ---
+      // Up Arrow
       this.upArrow = this.add.image(width / 2 + 100, height / 2, 'arrowUp')
         .setOrigin(0.5)
-        .setInteractive();
+        .setInteractive()
+        .on('pointerdown', () => {
+          this.updateScore(1);  // +1 guess attempt each arrow press?
+          this.playerGuess++;
+          if (this.playerGuess > 99) this.playerGuess = 99;
+          this.updateGuessText();
+        });
   
-      this.upArrow.on('pointerdown', () => {
-        this.playerGuess++;
-        if (this.playerGuess > 99) this.playerGuess = 99; // some cap
-        this.updateGuessText();
-      });
-  
-      // --- Down Arrow (decrease guess) ---
+      // Down Arrow
       this.downArrow = this.add.image(width / 2 - 100, height / 2, 'arrowDown')
         .setOrigin(0.5)
-        .setInteractive();
+        .setInteractive()
+        .on('pointerdown', () => {
+          this.updateScore(1);
+          this.playerGuess--;
+          if (this.playerGuess < 0) this.playerGuess = 0;
+          this.updateGuessText();
+        });
   
-      this.downArrow.on('pointerdown', () => {
-        this.playerGuess--;
-        if (this.playerGuess < 0) this.playerGuess = 0; // don’t go negative
-        this.updateGuessText();
-      });
-  
-      // --- Check Button ---
-      this.checkButton = this.add.image(width / 2, height / 2 + 100, 'checkBtn')
+      // Check Button
+      this.checkButton = this.add.image(width / 2, height / 2 + 80, 'checkBtn')
         .setOrigin(0.5)
-        .setInteractive();
+        .setInteractive()
+        .on('pointerdown', () => {
+          this.updateScore(1);  // +1 attempt for each check?
+          this.checkAnswer();
+        });
   
-      this.checkButton.on('pointerdown', () => {
-        this.checkAnswer();
-      });
-  
-      // --- Result Text ---
-      this.resultText = this.add.text(width / 2, height / 2 + 180, '', {
+      // 7) Result text
+      this.resultText = this.add.text(width / 2, height / 2 + 140, '', {
         fontSize: '22px',
         color: '#ffffff',
       }).setOrigin(0.5);
   
-      // --- Back to Menu ---
-      this.backText = this.add.text(width / 2, height - 50, 'Back to Menu', {
-        fontSize: '22px',
+      // 8) Back to Menu
+      this.backText = this.add.text(width / 2, height - 30, 'Back to Menu', {
+        fontSize: '20px',
         color: '#ffffff',
         backgroundColor: '#000000',
-        padding: { x: 10, y: 5 },
+        padding: { x: 8, y: 4 },
       })
       .setOrigin(0.5)
-      .setInteractive();
-  
-      this.backText.on('pointerdown', () => {
-        this.scene.start('MainMenuScene');
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.scene.start('MiniGamesMenuScene');
       });
+  
+      // 9) Score and Time display
+      this.flipsText = this.add.text(10, 10, 'Attempts: 0', {
+        fontSize: '18px',
+        color: '#ffffff'
+      });
+      this.timerText = this.add.text(10, 30, 'Time: 30', {
+        fontSize: '18px',
+        color: '#ffffff'
+      });
+  
+      this.gameWon = false;
     }
   
     updateGuessText() {
       this.guessText.setText(`Guess: ${this.playerGuess}`);
     }
   
+    updateScore(amount) {
+      // Increase attempt count
+      let score = this.registry.get('score');
+      score += amount;
+      this.registry.set('score', score);
+      this.flipsText.setText('Attempts: ' + score);
+    }
+  
     checkAnswer() {
+      if (this.gameWon) return;
+  
       if (this.playerGuess === this.solution) {
         this.resultText.setText('Correct! You Win!');
-        // Optionally disable buttons or show a "Go Next" button
+        this.gameWon = true;
+        this.time.delayedCall(500, () => {
+          this.scene.start('WinScene');
+        });
       } else {
-        this.resultText.setText(`Wrong! Try again.`);
+        this.resultText.setText('Wrong! Try again!');
+      }
+    }
+  
+    update(_, delta) {
+      if (this.gameWon) return;
+  
+      // Decrement time
+      let currentTime = this.registry.get('time');
+      currentTime -= (delta / 1000);
+      this.registry.set('time', currentTime);
+      this.timerText.setText('Time: ' + currentTime.toFixed(1));
+  
+      if (currentTime <= 0) {
+        this.scene.start('LoseScene');
       }
     }
   }
