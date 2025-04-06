@@ -18,7 +18,8 @@ const config = {
     LoseScene,
     NetworkSimulatorScene,
     NonceFinderScene,
-    ProofPuzzleScene
+    ProofPuzzleScene,
+    HowToPlayScene 
   ],
   physics: {
     default: 'arcade',

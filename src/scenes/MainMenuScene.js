@@ -19,12 +19,6 @@ class MainMenuScene extends Phaser.Scene {
         this.menuMusic.play();
       });
   
-      // 3) Title text (positioned near the top)
-      this.add.text(width / 2, height / 2 - 150, 'Main Menu', {
-        fontSize: '28px',
-        color: '#00ff00',
-      }).setOrigin(0.5);
-  
       // 4) Add your "box" logo at the center (or wherever you want)
       //    You can optionally scale it if it’s too large or too small:
       const logo = this.add.image(width / 2, height / 2 - 20, 'logoBox')

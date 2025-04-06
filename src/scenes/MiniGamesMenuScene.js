@@ -4,11 +4,23 @@ class MiniGamesMenuScene extends Phaser.Scene {
     }
   
     create() {
+      
+
       const { width, height } = this.cameras.main;
       this.add.text(width / 2, height / 4, 'Select a Mini Game:', {
         fontSize: '32px',
         color: '#ffffff'
       }).setOrigin(0.5);
+
+      // ADD: "How To Play" text
+    const howToPlayText = this.add.text(width / 2, height / 2 - 100, 'How to Play', {
+      fontSize: '24px',
+      color: '#ffff00'
+    }).setOrigin(0.5).setInteractive();
+
+    howToPlayText.on('pointerdown', () => {
+      this.scene.start('HowToPlayScene');
+    });
   
       // 1) Packet Dodger
       const packetDodgerText = this.add.text(width / 2, height / 2 - 50, 'Packet Dodger', {
