@@ -7,14 +7,20 @@ const config = {
   height: 600,
   parent: 'game-container',
   backgroundColor: '#222222',
-  scene: [BootScene, MainMenuScene, GameScene], 
+  scene: [
+    BootScene,
+    MainMenuScene,
+    MiniGamesMenuScene,
+    PacketDodgerScene,
+    BitFlipperScene,
+    HackerAttackScene,
+    WinScene,
+    LoseScene
+  ],
   physics: {
     default: 'arcade',
-    arcade: {
-      debug: false
-    }
+    arcade: { debug: false }
   }
 };
 
-// Initialize Phaser
 const game = new Phaser.Game(config);
