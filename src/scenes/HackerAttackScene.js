@@ -4,20 +4,25 @@ class HackerAttackScene extends Phaser.Scene {
     }
   
     preload() {
-      this.load.image('player', 'assets/player.png');
-      this.load.image('bullet', 'assets/bullet.png');
-      this.load.image('malware', 'assets/packet.png'); 
+      this.load.image('PDCharacter', 'assets/PDCharacter.jpg');
+      this.load.image('bullet', 'assets/images/Bullet.png');
+      this.load.image('PDEnemy', 'assets/PDEnemy.jpg');
+      this.load.image('PDBackground', 'assets/images/PDBackground.jpg');
     }
   
     create() {
       const { width, height } = this.cameras.main;
+
+      // 1) Add background (loaded from BootScene)
+      this.add.image(width / 2, height / 2, 'PDBackground')
+      .setDisplaySize(width, height);
   
       this.registry.set('score', 0);
       this.registry.set('lives', 3);
       this.registry.set('time', 0); // Could track how long you survive or how quickly you reach the target
   
       // Player
-      this.player = this.physics.add.sprite(width / 2, height - 50, 'player').setCollideWorldBounds(true);
+      this.player = this.physics.add.sprite(width / 2, height - 50, 'PDCharacter').setCollideWorldBounds(true);
   
       // Groups
       this.bullets = this.physics.add.group();
@@ -59,7 +64,7 @@ class HackerAttackScene extends Phaser.Scene {
   
     spawnMalware() {
       const x = Phaser.Math.Between(50, this.scale.width - 50);
-      const enemy = this.malware.create(x, 0, 'malware');
+      const enemy = this.malware.create(x, 0, 'PDEnemy');
       enemy.setVelocityY(120);
     }
   
