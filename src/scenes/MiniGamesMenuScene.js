@@ -46,6 +46,42 @@ class MiniGamesMenuScene extends Phaser.Scene {
         this.registry.set('time', 0);
         this.scene.start('HackerAttackScene');
       });
+
+      // 4) Hacker Attack
+      const NonceFinderText = this.add.text(width / 2, height / 2 + 100, 'Nonce Finder', {
+        fontSize: '24px',
+        color: '#00ff00'
+      }).setOrigin(0.5).setInteractive();
+  
+      NonceFinderText.on('pointerdown', () => {
+        this.registry.set('score', 0);
+        this.registry.set('time', 0);
+        this.scene.start('NonceFinderScene');
+      });
+
+      // 5) proof puzzle
+      const ProofPuzzleText = this.add.text(width / 2, height / 2 + 150, 'Proof Puzzle', {
+        fontSize: '24px',
+        color: '#00ff00'
+      }).setOrigin(0.5).setInteractive();
+  
+      ProofPuzzleText.on('pointerdown', () => {
+        this.registry.set('score', 0);
+        this.registry.set('time', 0);
+        this.scene.start('ProofPuzzleScene');
+      });
+
+      // 6) Network Simulator
+      const NetworkSimulatorText = this.add.text(width / 2, height / 2 + 200, 'Network Simulator', {
+        fontSize: '24px',
+        color: '#00ff00'
+      }).setOrigin(0.5).setInteractive();
+  
+      NetworkSimulatorText.on('pointerdown', () => {
+        this.registry.set('score', 0);
+        this.registry.set('time', 0);
+        this.scene.start('NetworkSimulatorScene');
+      });
     }
   }
   

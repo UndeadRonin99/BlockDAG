@@ -15,7 +15,10 @@ const config = {
     BitFlipperScene,
     HackerAttackScene,
     WinScene,
-    LoseScene
+    LoseScene,
+    NetworkSimulatorScene,
+    NonceFinderScene,
+    ProofPuzzleScene
   ],
   physics: {
     default: 'arcade',
