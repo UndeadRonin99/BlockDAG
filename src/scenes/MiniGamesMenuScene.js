@@ -92,9 +92,31 @@ class MiniGamesMenuScene extends Phaser.Scene {
       NetworkSimulatorText.on('pointerdown', () => {
         this.registry.set('score', 0);
         this.registry.set('time', 0);
-        this.scene.start('NetworkSimulatorScene');
+        this.scene.start('AdvancedNetworkScene');
       });
     }
   }
+
+  // Pseudocode
+async function connectWallet() {
+  if (window.ethereum) {
+    try {
+      // Request accounts from MetaMask
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      // Initialize Ethers
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const userAddress = await signer.getAddress();
+      console.log("Connected with address:", userAddress);
+      
+      return { provider, signer, userAddress };
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    alert("Please install MetaMask!");
+  }
+}
+
   
   window.MiniGamesMenuScene = MiniGamesMenuScene;

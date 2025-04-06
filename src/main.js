@@ -16,7 +16,7 @@ const config = {
     HackerAttackScene,
     WinScene,
     LoseScene,
-    NetworkSimulatorScene,
+    AdvancedNetworkScene,
     NonceFinderScene,
     ProofPuzzleScene,
     HowToPlayScene 

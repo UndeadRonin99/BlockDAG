@@ -29,10 +29,12 @@ class HowToPlayScene extends Phaser.Scene {
      - Get it correct to win!
   
   3) Network Simulator (Hard):
-     - You have 3 nodes in random spots.
-     - Drag each node close to its correct position 
-       (shown behind-the-scenes).
-     - Press 'Check' to validate. If all are correct, you win!
+     - You have 5 labeled nodes (A, B, C, D, and E) placed randomly.
+     - Each node can only have 2 edges (links).
+     - Your goal is to connect the nodes in a ring, in alphabetical order (A → B → C → D → E → A).
+     - Click one node, then another, to form a link between them. 
+    - Press "Check" to validate your network. If the cycle is correct, you win! Otherwise, keep adjusting.
+    - You have a time limit; if it runs out, you lose.
   
   Additional Games (listed in the Mini Game Menu):
      - Packet Dodger, Bit Flipper, Hacker Attack, etc. 
